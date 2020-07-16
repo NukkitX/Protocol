@@ -1,12 +1,13 @@
 package com.nukkitx.protocol.util;
 
+import java.util.zip.DataFormatException;
+
 import com.nukkitx.natives.util.Natives;
 import com.nukkitx.natives.zlib.Deflater;
 import com.nukkitx.natives.zlib.Inflater;
+
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
-
-import java.util.zip.DataFormatException;
 
 public class Zlib {
     public static final Zlib DEFAULT = new Zlib(false);
@@ -59,6 +60,24 @@ public class Zlib {
                 source.release();
             }
         }
+    }
+
+    public InflateStream inflateStream(ByteBuf buffer) {
+        ByteBuf source = null;
+        if (!buffer.isDirect()) {
+            // We don't have a direct buffer. Create one.
+            ByteBuf temporary = ByteBufAllocator.DEFAULT.ioBuffer();
+            temporary.writeBytes(buffer);
+            source = temporary;
+        } else {
+            source = buffer;
+        }
+
+        Inflater inflater = inflaterLocal.get();
+        inflater.reset();
+        inflater.setInput(source.internalNioBuffer(source.readerIndex(), source.readableBytes()));
+
+        return new InflateStream(inflater, source, source != buffer);
     }
 
     public void deflate(ByteBuf uncompressed, ByteBuf compressed, int level) throws DataFormatException {
