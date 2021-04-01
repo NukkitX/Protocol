@@ -28,5 +28,6 @@
         <module>bedrock-v419</module>
         <module>bedrock-v422</module>
         <module>bedrock-v428</module>
+        <module>genoa-v425</module>
     </modules>
 </project>

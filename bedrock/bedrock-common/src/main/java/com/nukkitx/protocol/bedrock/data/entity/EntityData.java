@@ -136,6 +136,7 @@ public enum EntityData {
     HITBOX(Type.NBT),
     IS_BUOYANT(Type.BYTE),
     BUOYANCY_DATA(Type.STRING),
+    GENOA_ENTITY_DATA(Type.BYTE), // TODO: Same as GenoaPacketHelper, find out what this is
     /**
      * @since v428
      */

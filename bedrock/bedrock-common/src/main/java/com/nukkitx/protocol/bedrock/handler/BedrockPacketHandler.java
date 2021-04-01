@@ -2,9 +2,59 @@ package com.nukkitx.protocol.bedrock.handler;
 
 import com.nukkitx.protocol.PacketHandler;
 import com.nukkitx.protocol.bedrock.packet.*;
+import com.nukkitx.protocol.genoa.packet.*;
 
 public interface BedrockPacketHandler extends PacketHandler {
+    //Minecraft Earth (Genoa)
+    default boolean handle(GenoaOpenInventoryPacket packet){return false;}
 
+    default boolean handle(GenoaInventoryDataPacket packet){return false;}
+
+    default boolean handle(GenoaGuestPlayerJoinResponsePacket packet){return false;}
+
+    default boolean handle(GenoaShareAnchorPacket packet){return false;}
+
+    default boolean handle(GenoaItemPickupPacket packet){return false;}
+
+    default boolean handle(GenoaSetActorMolangVariablesPacket packet){return false;}
+
+    default boolean handle(PersonaMobRequestPacket packet){return false;}
+
+    default boolean handle(GenoaGuestPlayerJoinRequestPacket packet){return false;}
+
+    default boolean handle(GenoaNetworkTransformPacket packet){return false;}
+
+    default boolean handle(GenoaWorldManipulationPacket packet){return false;}
+
+    default boolean handle(GenoaNetworkOwnershipRequestPacket packet){return false;}
+
+    default boolean handle(GenoaItemParticlePacket packet) { return false; };
+
+    default boolean handle(GenoaThirdPersonItemParticlePacket packet) { return false; };
+
+    default boolean handle(GenoaNetworkOwnershipStatusPacket packet) { return false; };
+
+    default boolean handle(GenoaUpdateBlockPacket packet) { return false; };
+
+    default boolean handle(GenoaBlockDestroyPacket packet) { return false; };
+
+    default boolean handle(GenoaPlayerHurtPacket packet) { return false; };
+
+    default boolean handle(GenoaDisconnectRequest packet) { return false; };
+
+    default boolean handle(GenoaDisconnectStart packet) { return false; };
+
+    default boolean handle(GenoaGameplaySettings packet) { return false; };
+
+    default boolean handle(GenoaBlockHitNoDamagePacket packet) { return false; };
+
+    default boolean handle(GenoaItemBrokeNotificationPacket packet) { return false; };
+
+    default boolean handle(GenoaItemAwardedNotificationPacket packet) { return false; };
+
+    default boolean handle(GenoaEventFlatbufferPacket packet) { return false; };
+
+    //Default bedrock
     default boolean handle(AdventureSettingsPacket packet) {
         return false;
     }
@@ -650,4 +700,5 @@ public interface BedrockPacketHandler extends PacketHandler {
     }
 
     default boolean handle(ClientboundDebugRendererPacket packet) { return false; }
+
 }

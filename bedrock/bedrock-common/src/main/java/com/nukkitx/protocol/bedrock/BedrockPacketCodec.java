@@ -4,6 +4,7 @@ import com.nukkitx.protocol.bedrock.exception.PacketSerializeException;
 import com.nukkitx.protocol.bedrock.packet.UnknownPacket;
 import com.nukkitx.protocol.util.Int2ObjectBiMap;
 import io.netty.buffer.ByteBuf;
+import io.netty.buffer.ByteBufUtil;
 import io.netty.util.ReferenceCountUtil;
 import io.netty.util.internal.logging.InternalLogger;
 import io.netty.util.internal.logging.InternalLoggerFactory;
@@ -63,6 +64,7 @@ public final class BedrockPacketCodec {
 
         if (log.isDebugEnabled() && buf.isReadable()) {
             log.debug(packet.getClass().getSimpleName() + " still has " + buf.readableBytes() + " bytes to read!");
+            log.debug("Contents: " + ByteBufUtil.prettyHexDump(buf));
         }
         return packet;
     }

@@ -3,6 +3,7 @@ package com.nukkitx.protocol.bedrock;
 import com.nukkitx.math.vector.Vector2f;
 import com.nukkitx.math.vector.Vector3f;
 import com.nukkitx.math.vector.Vector3i;
+import com.nukkitx.math.vector.Vector4f;
 import com.nukkitx.nbt.NBTInputStream;
 import com.nukkitx.nbt.NBTOutputStream;
 import com.nukkitx.nbt.NbtUtils;
@@ -316,6 +317,24 @@ public abstract class BedrockPacketHelper {
         buffer.writeLongLE(uuid.getLeastSignificantBits());
     }
 
+    public Vector4f readVector4f(ByteBuf buffer) {
+        Preconditions.checkNotNull(buffer, "buffer");
+        float w = buffer.readFloatLE();
+        float x = buffer.readFloatLE();
+        float y = buffer.readFloatLE();
+        float z = buffer.readFloatLE();
+        return Vector4f.from(x, y, z, w);
+    }
+
+    public void writeVector4f(ByteBuf buffer, Vector4f vector4f) {
+        Preconditions.checkNotNull(buffer, "buffer");
+        Preconditions.checkNotNull(vector4f, "vector4f");
+        buffer.writeFloatLE(vector4f.getW());
+        buffer.writeFloatLE(vector4f.getX());
+        buffer.writeFloatLE(vector4f.getY());
+        buffer.writeFloatLE(vector4f.getZ());
+    }
+
     public Vector3f readVector3f(ByteBuf buffer) {
         Preconditions.checkNotNull(buffer, "buffer");
         float x = buffer.readFloatLE();
@@ -374,6 +393,23 @@ public abstract class BedrockPacketHelper {
     }
 
     public void writeBlockPosition(ByteBuf buffer, Vector3i blockPosition) {
+        Preconditions.checkNotNull(buffer, "buffer");
+        Preconditions.checkNotNull(blockPosition, "blockPosition");
+        VarInts.writeInt(buffer, blockPosition.getX());
+        VarInts.writeUnsignedInt(buffer, blockPosition.getY());
+        VarInts.writeInt(buffer, blockPosition.getZ());
+    }
+
+    public Vector3i readOrigBlockPosition(ByteBuf buffer) {
+        Preconditions.checkNotNull(buffer, "buffer");
+        int x = VarInts.readInt(buffer);
+        int y = VarInts.readUnsignedInt(buffer);
+        int z = VarInts.readInt(buffer);
+
+        return Vector3i.from(x, y, z);
+    }
+
+    public void writeOrigBlockPosition(ByteBuf buffer, Vector3i blockPosition) {
         Preconditions.checkNotNull(buffer, "buffer");
         Preconditions.checkNotNull(blockPosition, "blockPosition");
         VarInts.writeInt(buffer, blockPosition.getX());
