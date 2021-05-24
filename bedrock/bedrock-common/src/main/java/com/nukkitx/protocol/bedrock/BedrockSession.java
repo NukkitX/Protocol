@@ -7,12 +7,12 @@ import com.nukkitx.network.util.DisconnectReason;
 import com.nukkitx.protocol.MinecraftSession;
 import com.nukkitx.protocol.bedrock.annotation.NoEncryption;
 import com.nukkitx.protocol.bedrock.compat.BedrockCompat;
-import com.nukkitx.protocol.bedrock.exception.PacketSerializeException;
-import com.nukkitx.protocol.bedrock.handler.BatchHandler;
+import com.nukkitx.protocol.handler.BatchHandler;
 import com.nukkitx.protocol.bedrock.handler.BedrockPacketHandler;
 import com.nukkitx.protocol.bedrock.handler.DefaultBatchHandler;
 import com.nukkitx.protocol.bedrock.util.EncryptionUtils;
 import com.nukkitx.protocol.bedrock.wrapper.BedrockWrapperSerializer;
+import com.nukkitx.protocol.exception.PacketSerializeException;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
 import io.netty.channel.EventLoop;
@@ -47,7 +47,7 @@ public abstract class BedrockSession implements MinecraftSession<BedrockPacket> 
     final SessionConnection<ByteBuf> connection;
     private BedrockPacketCodec packetCodec = BedrockCompat.COMPAT_CODEC;
     private BedrockPacketHandler packetHandler;
-    private BatchHandler batchHandler = DefaultBatchHandler.INSTANCE;
+    private BatchHandler<BedrockSession, BedrockPacket> batchHandler = DefaultBatchHandler.INSTANCE;
     private Cipher encryptionCipher = null;
     private Cipher decryptionCipher = null;
     private SecretKey agreedKey;
@@ -297,11 +297,11 @@ public abstract class BedrockSession implements MinecraftSession<BedrockPacket> 
         return this.packetHandler;
     }
 
-    public BatchHandler getBatchHandler() {
+    public BatchHandler<BedrockSession, BedrockPacket> getBatchHandler() {
         return this.batchHandler;
     }
 
-    public void setBatchHandler(BatchHandler batchHandler) {
+    public void setBatchHandler(BatchHandler<BedrockSession, BedrockPacket> batchHandler) {
         this.batchHandler = Objects.requireNonNull(batchHandler, "batchHandler");
     }
 

@@ -4,7 +4,7 @@ import com.nukkitx.network.VarInts;
 import com.nukkitx.protocol.bedrock.BedrockPacket;
 import com.nukkitx.protocol.bedrock.BedrockPacketCodec;
 import com.nukkitx.protocol.bedrock.BedrockSession;
-import com.nukkitx.protocol.bedrock.exception.PacketSerializeException;
+import com.nukkitx.protocol.exception.PacketSerializeException;
 import com.nukkitx.protocol.util.Zlib;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;

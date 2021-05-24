@@ -5,6 +5,7 @@ import com.nukkitx.natives.zlib.Deflater;
 import com.nukkitx.natives.zlib.Inflater;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufAllocator;
+import io.netty.util.concurrent.FastThreadLocal;
 
 import java.util.zip.DataFormatException;
 
@@ -14,18 +15,18 @@ public class Zlib {
 
     private static final int CHUNK = 8192;
 
-    private final ThreadLocal<Inflater> inflaterLocal;
-    private final ThreadLocal<Deflater> deflaterLocal;
+    private final FastThreadLocal<Inflater> inflaterLocal;
+    private final FastThreadLocal<Deflater> deflaterLocal;
 
     private Zlib(boolean raw) {
         // Required for Android API versions prior to 26.
-        this.inflaterLocal = new ThreadLocal<Inflater>() {
+        this.inflaterLocal = new FastThreadLocal<Inflater>() {
             @Override
             public Inflater initialValue() {
                 return Natives.ZLIB.get().create(raw);
             }
         };
-        this.deflaterLocal = new ThreadLocal<Deflater>(){
+        this.deflaterLocal = new FastThreadLocal<Deflater>() {
             @Override
             protected Deflater initialValue() {
                 return Natives.ZLIB.get().create(7, raw);
@@ -75,7 +76,7 @@ public class Zlib {
         }
     }
 
-    public void deflate(ByteBuf uncompressed, ByteBuf compressed, int level) throws DataFormatException {
+    public void deflate(ByteBuf uncompressed, ByteBuf compressed, int level) {
         ByteBuf destination = null;
         ByteBuf source = null;
         try {

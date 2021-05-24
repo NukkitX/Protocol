@@ -3,7 +3,7 @@ package com.nukkitx.protocol.bedrock.v419.serializer;
 import com.nukkitx.protocol.bedrock.BedrockPacketHelper;
 import com.nukkitx.protocol.bedrock.packet.MoveEntityDeltaPacket;
 import com.nukkitx.protocol.bedrock.packet.MoveEntityDeltaPacket.Flag;
-import com.nukkitx.protocol.bedrock.util.TriConsumer;
+import com.nukkitx.protocol.util.TriConsumer;
 import com.nukkitx.protocol.bedrock.v388.serializer.MoveEntityDeltaSerializer_v388;
 import io.netty.buffer.ByteBuf;
 

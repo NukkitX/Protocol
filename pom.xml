@@ -16,6 +16,7 @@
     <modules>
         <module>common</module>
         <module>bedrock</module>
+        <module>java</module>
     </modules>
 
     <licenses>
@@ -75,6 +76,10 @@
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
+        </repository>
+        <repository>
+            <id>sonatype-oss</id>
+            <url>https://oss.sonatype.org/content/repositories/snapshots/</url>
         </repository>
     </repositories>
 

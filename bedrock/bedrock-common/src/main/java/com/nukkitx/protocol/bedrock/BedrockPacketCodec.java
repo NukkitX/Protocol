@@ -1,7 +1,7 @@
 package com.nukkitx.protocol.bedrock;
 
-import com.nukkitx.protocol.bedrock.exception.PacketSerializeException;
 import com.nukkitx.protocol.bedrock.packet.UnknownPacket;
+import com.nukkitx.protocol.exception.PacketSerializeException;
 import com.nukkitx.protocol.util.Int2ObjectBiMap;
 import io.netty.buffer.ByteBuf;
 import io.netty.util.ReferenceCountUtil;
@@ -17,6 +17,8 @@ import lombok.RequiredArgsConstructor;
 import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
+
+import java.lang.reflect.InvocationTargetException;
 
 import static com.nukkitx.network.util.Preconditions.checkArgument;
 import static com.nukkitx.network.util.Preconditions.checkNotNull;
@@ -44,14 +46,14 @@ public final class BedrockPacketCodec {
         BedrockPacket packet;
         BedrockPacketSerializer<BedrockPacket> serializer;
         try {
-            packet = idBiMap.get(id).newInstance();
+            packet = idBiMap.get(id).getDeclaredConstructor().newInstance();
             if (packet instanceof UnknownPacket) {
                 //noinspection unchecked
                 serializer = (BedrockPacketSerializer<BedrockPacket>) packet;
             } else {
                 serializer = serializers[id];
             }
-        } catch (ClassCastException | InstantiationException | IllegalAccessException | ArrayIndexOutOfBoundsException e) {
+        } catch (ClassCastException | InstantiationException | IllegalAccessException | ArrayIndexOutOfBoundsException | NoSuchMethodException | InvocationTargetException e) {
             throw new PacketSerializeException("Packet ID " + id + " does not exist", e);
         }
 

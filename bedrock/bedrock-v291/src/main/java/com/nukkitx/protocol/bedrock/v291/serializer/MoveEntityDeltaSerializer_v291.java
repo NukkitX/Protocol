@@ -4,7 +4,7 @@ import com.nukkitx.network.VarInts;
 import com.nukkitx.protocol.bedrock.BedrockPacketHelper;
 import com.nukkitx.protocol.bedrock.BedrockPacketSerializer;
 import com.nukkitx.protocol.bedrock.packet.MoveEntityDeltaPacket;
-import com.nukkitx.protocol.bedrock.util.TriConsumer;
+import com.nukkitx.protocol.util.TriConsumer;
 import io.netty.buffer.ByteBuf;
 
 import java.util.EnumMap;

@@ -18,7 +18,7 @@ import com.nukkitx.protocol.bedrock.data.skin.ImageData;
 import com.nukkitx.protocol.bedrock.data.skin.SerializedSkin;
 import com.nukkitx.protocol.bedrock.data.structure.StructureSettings;
 import com.nukkitx.protocol.bedrock.packet.InventoryTransactionPacket;
-import com.nukkitx.protocol.bedrock.util.TriConsumer;
+import com.nukkitx.protocol.util.TriConsumer;
 import com.nukkitx.protocol.util.Int2ObjectBiMap;
 import com.nukkitx.protocol.util.QuadConsumer;
 import com.nukkitx.protocol.util.TriFunction;
@@ -176,7 +176,7 @@ public abstract class BedrockPacketHelper {
     public final void removeCommandParam(CommandParam type) {
         this.commandParams.remove(type);
     }
-    
+
     public final void addResourcePackType(int index, ResourcePackType resourcePackType) {
         this.resourcePackTypes.put(index, resourcePackType);
     }
