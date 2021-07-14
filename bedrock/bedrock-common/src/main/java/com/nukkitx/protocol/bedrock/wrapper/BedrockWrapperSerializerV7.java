@@ -47,9 +47,9 @@ public class BedrockWrapperSerializerV7 extends BedrockWrapperSerializer {
 
     @Override
     public void deserialize(ByteBuf compressed, BedrockPacketCodec codec, Collection<BedrockPacket> packets, BedrockSession session) {
-        ByteBuf decompressed = null;
+        ByteBuf decompressed = ByteBufAllocator.DEFAULT.ioBuffer();
         try {
-            decompressed = ZLIB.inflate(compressed, 2 * 1024 * 1024); // 2MBs
+            ZLIB.inflate(compressed, decompressed, 2 * 1024 * 1024); // 2MBs
 
             while (decompressed.isReadable()) {
                 int length = VarInts.readUnsignedInt(decompressed);
@@ -74,9 +74,7 @@ public class BedrockWrapperSerializerV7 extends BedrockWrapperSerializer {
         } catch (DataFormatException e) {
             throw new RuntimeException("Unable to inflate buffer data", e);
         } finally {
-            if (decompressed != null) {
-                decompressed.release();
-            }
+            decompressed.release();
         }
     }
 }

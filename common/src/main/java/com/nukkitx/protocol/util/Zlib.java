@@ -33,18 +33,16 @@ public class Zlib {
         };
     }
 
-    public ByteBuf inflate(ByteBuf buffer, int maxSize) throws DataFormatException {
+    public void inflate(ByteBuf compressed, ByteBuf decompressed, int maxSize) throws DataFormatException {
         ByteBuf source = null;
-        ByteBuf decompressed = ByteBufAllocator.DEFAULT.ioBuffer();
-
         try {
-            if (!buffer.isDirect()) {
+            if (!compressed.isDirect()) {
                 // We don't have a direct buffer. Create one.
                 ByteBuf temporary = ByteBufAllocator.DEFAULT.ioBuffer();
-                temporary.writeBytes(buffer);
+                temporary.writeBytes(compressed);
                 source = temporary;
             } else {
-                source = buffer;
+                source = compressed;
             }
 
             Inflater inflater = inflaterLocal.get();
@@ -64,12 +62,8 @@ public class Zlib {
                     throw new DataFormatException("Inflated data exceeds maximum size");
                 }
             }
-            return decompressed;
-        } catch (DataFormatException e) {
-            decompressed.release();
-            throw e;
         } finally {
-            if (source != null && source != buffer) {
+            if (source != null && source != compressed) {
                 source.release();
             }
         }
